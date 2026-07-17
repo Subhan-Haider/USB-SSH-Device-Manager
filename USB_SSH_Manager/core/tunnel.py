@@ -3,6 +3,13 @@ import threading
 import sys
 import os
 
+# Allow bundled tools/ directory to shadow system PATH
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.dirname(_HERE)
+_TOOLS_DIR = os.path.join(_PROJECT_ROOT, "tools")
+if os.path.isdir(_TOOLS_DIR) and _TOOLS_DIR not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = _TOOLS_DIR + os.pathsep + os.environ.get("PATH", "")
+
 class TunnelManager:
     def __init__(self):
         self.process = None
